@@ -1,15 +1,54 @@
-<html>
+<!DOCTYPE html>
     <head>
         <title>Github SVG Generator</title>
     <script>
     </script>
+    <style>
+        .container {
+            padding: 10px;
+        }
+        .content {
+            width: 80%;
+            margin: auto;
+        }
+        a {
+            color: darkblue;
+            text-decoration: none;
+        }
+        .header {
+            width: 100%;
+        }
+        .header form, .header h1 {
+            display: inline-block;
+        }
+        .header form {
+            text-align: right;
+            width: 50%;
+        }
+
+
+    </style>
     </head>
     <body>
-        <h1>donuts-are-good Scoreboard</h1>
-        <hr>
-        <p>
-            Generate a high score list of your github repos as a clickable SVG<br>
-            Each entry on your scoreboard is a clickable link to the repository that it represents.
-        </p>
+        <div class="container">
+            <div class="content">
+                <div class="header">
+                <h1><a href="https://github.com/donuts-are-good/github-scoreboard">donuts-are-good</a> Scoreboard</h1>
+                <h1></h1>
+                <form>
+                    <input type="text" name="username">
+                    <input type="submit" value="Generate SVG">
+                </form>
+           </div>
+                <hr>
+                <p>
+                    Generate a high score list of your github repos as a clickable SVG<br><br>
+                    Each entry on your scoreboard is a clickable link to the repository that it represents.
+                    <br><br>
+                    <h1>example</h1>
+                    <hr>
+                    <img src="repo_list.svg" alt="Repo Rankings">
+                </p>
+            </div>
     </body>
 </html>
