@@ -33,13 +33,12 @@
         <div class="container">
             <div class="content">
                 <div class="header">
-                <h1><a href="https://github.com/donuts-are-good/github-scoreboard">donuts-are-good</a> Scoreboard</h1>
-                <h1></h1>
-                <form>
-                    <input type="text" name="username">
-                    <input type="submit" value="Generate SVG">
-                </form>
-           </div>
+                    <h1><a href="https://github.com/donuts-are-good/github-scoreboard">donuts-are-good</a> Scoreboard</h1>
+                    <form name="getUsername" onsubmit="loadDoc(event)">
+                        <input type="text" name="username">
+                        <input type="submit" value="Generate SVG">
+                    </form>
+                </div>
                 <hr>
                 <p>
                     Generate a high score list of your github repos as a clickable SVG<br><br>
@@ -51,4 +50,70 @@
                 </p>
             </div>
     </body>
+    <script>
+        let username = ""
+        function loadDoc(event) {
+            event.preventDefault()
+            page = document.getElementsByClassName("container")[0]
+            username = event.target.elements.username.value
+            let url = "https://api.github.com/users/" + username + "/repos"
+            console.log(url)
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    svgString = generateSVG(JSON.parse(this.responseText))
+                    page.innerHTML = page.innerHTML + svgString
+                }
+                
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+        function generateSVG(repos) {
+            let svgString = ""
+            itemHeight = 21
+            svgHeight = repos.length * itemHeight
+            maxStars = 0
+            for (repo in repos) {
+                if (repo.Stars > maxStars) {
+                    maxStars = repo.Stars
+                }
+            }
+            maxDigits = maxStars.length
+            if (maxDigits > 3) {
+                maxDigits = 3
+            }
+            starPadding = "  "
+            if (maxDigits == 2) {
+                starPadding = " "
+            }
+            if (maxDigits == 3) {
+                starPadding = ""
+            }
+            svgString += "<svg width='800' height='" + svgHeight + "' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>"
+            svgString += "<!--. this svg was generated with github-scoreboard https://github.com/donuts-are-good/github-scoreboard  .-->"
+            svgString += "<rect width='800' height='" + svgHeight + "' fill='white' />"
+            for (let [i, val] of repos.entries()) {
+                escapedDescription = document.createTextNode(val.description)
+                console.log(escapedDescription)
+
+                let indexPadding = "  "
+                if (i >= 9) {
+                    indexPadding = " "
+                }
+                starString = val.starsgazers_count
+                if (val.starsgazers_count >= 1000) {
+                    starString = val.stars/1000.0
+                }
+                if (val.starsgazers_count >= 1000000) {
+                    starString = val.starsgazers_count/1000000.0
+                }
+                index = i+1
+                svgString += "<a xlink:href='https://github.com/" + username + "/" + val.name + "'><text x='20' y='" + 20+20*i + "' fill='black' font-family='monospace'>" + index + "." + indexPadding + "⭐[" + starString + "]" + starPadding + " - " + val.name + " - " + escapedDescription + "</text></a>"
+            }
+            svgString += "</svg>"
+            return svgString
+        }
+    </script>
 </html>
