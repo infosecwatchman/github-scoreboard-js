@@ -99,9 +99,9 @@
             if (maxDigits == 3) {
                 starPadding = ""
             }
-            svgString += "<svg width='800' height='" + svgHeight + "' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>"
+            svgString += "<svg width='1000' height='" + svgHeight + "' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>"
             svgString += "<!--. this svg was generated with github-scoreboard https://github.com/donuts-are-good/github-scoreboard  .-->"
-            svgString += "<rect width='800' height='" + svgHeight + "' fill='white' />"
+            svgString += "<rect width='1000' height='" + svgHeight + "' fill='white' />"
             for (let [i, val] of repos.entries()) {
                 escapedDescription = document.createTextNode(val.description)
 
